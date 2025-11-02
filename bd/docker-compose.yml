@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: my_postgres
+    restart: unless-stopped
+    networks:
+      - conductor_net
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: midb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+
+networks:
+  conductor_net:
+    external: true

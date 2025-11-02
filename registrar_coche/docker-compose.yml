@@ -1,0 +1,19 @@
+services:
+  conductor_api:
+    build: .
+    container_name: conductorCoche_api
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    networks:
+      - conductor_net
+    environment:
+      POSTGRES_HOST: my_postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpass
+      POSTGRES_DB: midb
+      POSTGRES_PORT: 5432
+
+networks:
+  conductor_net:
+    external: true
