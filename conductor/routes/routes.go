@@ -17,5 +17,6 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 		api.GET("/conductores/:id", conductorController.GetConductorByID)
 		api.PUT("/conductores/:id", conductorController.UpdateConductor)
 		api.DELETE("/conductores/:id", conductorController.DeleteConductor)
+		//api.GET("/conductores/conductorCoche", conductorController.GetConductorByIDCoche)
 	}
 }

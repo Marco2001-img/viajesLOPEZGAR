@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"marco/api/models"
+	"marco/api/routes"
 	"os"
-
-	"github.com/marco/apiViajes/models"
-	"github.com/marco/apiViajes/routes"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
@@ -41,5 +40,5 @@ func main() {
 	router := gin.Default()
 	routes.SetupRoutes(router, db)
 
-	router.Run(":8084")
+	router.Run(":8085")
 }

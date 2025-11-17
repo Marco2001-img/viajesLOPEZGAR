@@ -1,10 +1,10 @@
 services:
-  viajes_api:
+  conductor_api:
     build: .
-    container_name: viajes_api
+    container_name: viajesDisponibles_api
     restart: unless-stopped
     ports:
-      - "8084:8084"
+      - "8085:8085"
     networks:
       - conductor_net
     environment:

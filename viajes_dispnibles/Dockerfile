@@ -17,28 +17,30 @@ RUN go build -ldflags='-w -s' -o main .
 # ----------------------------------------------------------------------------------
 
 # Stage 2: runtime
+# Usamos 'scratch' para la imagen final si no necesitas shell/librerías C (el tamaño es mínimo)
+# Si tu aplicación *realmente* necesita CGO o librerías dinámicas, usa 'alpine:latest'
+# En el contexto de tu error de zona horaria, usaremos 'alpine' y lo corregiremos.
 FROM alpine:latest
 
 WORKDIR /app
 
 # INSTALACIÓN DE ZONA HORARIA (TZDATA):
+# Esto es CRUCIAL para solucionar el error "unknown time zone America/Lima".
+# Instalar tzdata permite al sistema operativo reconocer y usar zonas horarias.
 RUN apk update && apk add --no-cache tzdata
 
-# OPCIONAL PERO RECOMENDADO: Establece la zona horaria del contenedor.
+# OPCIONAL PERO RECOMENDADO: Establece la zona horaria del contenedor a una de Latam (México/CDMX).
+# Esto asegurará que cualquier proceso dentro del contenedor use esta TZ por defecto.
 ENV TZ=America/Mexico_City
 
 # Copiamos el binario desde el builder
 COPY --from=builder /app/main .
 
-# >>>>>>>>>>>>>>>>>> CORRECCIÓN CLAVE AQUÍ <<<<<<<<<<<<<<<<<<<<
-# Otorga permisos de ejecución al binario 'main' para solucionar "permission denied".
-RUN chmod +x /app/main
-
-# Variables de entorno
-ENV PORT=8084
+# Variables de entorno opcionales
+ENV PORT=8085
 
 # Exponemos el puerto
-EXPOSE 8084
+EXPOSE 8085
 
 # Comando para ejecutar la app
 CMD ["./main"]
